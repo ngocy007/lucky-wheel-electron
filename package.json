@@ -1,16 +1,55 @@
 {
-  "name": "quay",
+  "name": "vong-quay-may-man",
+  "productName": "Vòng Quay May Mắn",
   "version": "1.0.0",
+  "description": "Ứng dụng vòng quay may mắn",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:dir": "electron-builder --dir"
   },
-  "keywords": [],
+  "keywords": [
+    "lucky-wheel",
+    "game"
+  ],
   "author": "",
-  "license": "ISC",
-  "description": "",
+  "license": "MIT",
   "devDependencies": {
-    "electron": "^39.2.7"
+    "electron": "^39.2.7",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.vongquay.mayMan",
+    "productName": "Vòng Quay May Mắn",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "wheel.js",
+      "admin.js",
+      "index.html",
+      "admin.html",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Vòng Quay May Mắn"
+    }
   }
 }
