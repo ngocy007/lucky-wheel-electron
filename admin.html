@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Trị</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      text-align: center;
+      min-width: 350px;
+    }
+
+    .login-box h2 {
+      color: #667eea;
+      margin-bottom: 30px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 15px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .login-box button:hover {
+      background: #764ba2;
+    }
+
+    .error {
+      color: #ff4757;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .admin-panel {
+      display: none;
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .admin-panel h1 {
+      color: #667eea;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .section {
+      margin-bottom: 40px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+    }
+
+    .section h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #555;
+      font-weight: bold;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .btn {
+      padding: 10px 25px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-right: 10px;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #764ba2;
+    }
+
+    .btn-danger {
+      background: #ff4757;
+    }
+
+    .btn-danger:hover {
+      background: #e84118;
+    }
+
+    .list {
+      margin-top: 20px;
+    }
+
+    .list-item {
+      background: white;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #ddd;
+    }
+
+    .list-item-info {
+      flex: 1;
+    }
+
+    .list-item-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #667eea;
+      color: white;
+    }
+
+    tr:hover {
+      background: #f1f1f1;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 10px;
+      background: #28a745;
+      color: white;
+      border-radius: 3px;
+      font-size: 0.9rem;
+    }
+
+    .badge.won {
+      background: #ffc107;
+    }
+
+    .reset-btn {
+      margin-top: 20px;
+      background: #ff6b6b;
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: white;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+      border-left: 5px solid #667eea;
+      z-index: 10000;
+      display: none;
+      animation: slideIn 0.3s ease;
+      max-width: 400px;
+    }
+
+    .notification.error {
+      border-left-color: #ff4757;
+    }
+
+    .notification.success {
+      border-left-color: #28a745;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .confirm-dialog {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 10001;
+    }
+
+    .confirm-content {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .confirm-content h3 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .confirm-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container" id="loginContainer">
+    <div class="login-box">
+      <h2>Đăng Nhập Quản Trị</h2>
+      <input type="password" id="password" placeholder="Nhập mật khẩu" />
+      <button onclick="login()">Đăng Nhập</button>
+      <div class="error" id="error">Mật khẩu không đúng!</div>
+    </div>
+  </div>
+
+  <div class="admin-panel" id="adminPanel">
+    <h1>QUẢN TRỊ VÒNG QUAY MAY MẮN</h1>
+
+    <div class="section">
+      <h2>Quản Lý Giải Thưởng</h2>
+      <div class="form-group">
+        <label>Tên Giải Thưởng:</label>
+        <input type="text" id="prizeName" placeholder="VD: Giải Nhất, Giải Khuyến Khích..." />
+      </div>
+      <div class="form-group">
+        <label>Chỉ Định Người Trúng (Tùy chọn):</label>
+        <select id="prizeWinner">
+          <option value="">Ngẫu nhiên</option>
+        </select>
+      </div>
+      <button class="btn" onclick="addPrize()">Thêm Giải Thưởng</button>
+
+      <div class="list" id="prizeList"></div>
+    </div>
+
+    <div class="section">
+      <h2>Quản Lý Người Chơi</h2>
+      <div class="form-group">
+        <label>Tên Người Chơi:</label>
+        <input type="text" id="playerName" placeholder="Nhập tên người chơi" />
+      </div>
+      <button class="btn" onclick="addPlayer()">Thêm Người Chơi</button>
+
+      <div class="list" id="playerList"></div>
+    </div>
+
+    <div class="section">
+      <h2>Danh Sách Trúng Thưởng</h2>
+      <table id="winnerTable">
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Người Trúng</th>
+            <th>Giải Thưởng</th>
+            <th>Thời Gian</th>
+          </tr>
+        </thead>
+        <tbody id="winnerTableBody">
+          <tr>
+            <td colspan="4" style="text-align: center; color: #999;">Chưa có người trúng thưởng</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button class="btn reset-btn" onclick="resetAll()">Reset Toàn Bộ Dữ Liệu</button>
+  </div>
+
+  <div class="notification" id="notification"></div>
+
+  <div class="confirm-dialog" id="confirmDialog">
+    <div class="confirm-content">
+      <h3 id="confirmMessage"></h3>
+      <div class="confirm-buttons">
+        <button class="btn" id="confirmYes">Đồng ý</button>
+        <button class="btn btn-danger" id="confirmNo">Hủy</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
