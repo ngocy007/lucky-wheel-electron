@@ -1,7 +1,7 @@
 {
   "name": "vong-quay-may-man",
   "productName": "Vòng Quay May Mắn",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Ứng dụng vòng quay may mắn",
   "main": "main.js",
   "scripts": {

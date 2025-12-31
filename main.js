@@ -1,8 +1,21 @@
 const { app, BrowserWindow, ipcMain, globalShortcut } = require('electron');
 const path = require('path');
+const fs = require('fs');
 
 let mainWindow;
 let adminWindow;
+
+// Hàm lấy đường dẫn data file
+function getDataFilePath() {
+  const userDataPath = app.getPath('userData');
+
+  // Tạo thư mục userData nếu chưa tồn tại
+  if (!fs.existsSync(userDataPath)) {
+    fs.mkdirSync(userDataPath, { recursive: true });
+  }
+
+  return path.join(userDataPath, 'data.json');
+}
 
 function createMainWindow() {
   mainWindow = new BrowserWindow({
@@ -53,6 +66,11 @@ function createAdminWindow() {
 }
 
 app.whenReady().then(() => {
+  // Đăng ký IPC handlers
+  ipcMain.handle('get-data-path', () => {
+    return getDataFilePath();
+  });
+
   createMainWindow();
 
   globalShortcut.register('`', () => {

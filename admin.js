@@ -2,12 +2,17 @@ const { ipcRenderer } = require('electron');
 const fs = require('fs');
 const path = require('path');
 
-const DATA_FILE = path.join(__dirname, 'data.json');
 const PASSWORD = '123456';
 
+let DATA_FILE = '';
 let prizes = [];
 let players = [];
 let winners = [];
+
+// Lấy đường dẫn file data từ main process
+(async () => {
+  DATA_FILE = await ipcRenderer.invoke('get-data-path');
+})();
 
 function showNotification(message, type = 'success') {
   const notification = document.getElementById('notification');

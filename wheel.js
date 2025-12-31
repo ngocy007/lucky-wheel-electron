@@ -2,13 +2,28 @@ const { ipcRenderer } = require('electron');
 const fs = require('fs');
 const path = require('path');
 
-const DATA_FILE = path.join(__dirname, 'data.json');
-
+let DATA_FILE = '';
 let prizes = [];
 let players = [];
 let winners = [];
 let currentRotation = 0;
 let isSpinning = false;
+
+// Lấy đường dẫn file data từ main process
+(async () => {
+  DATA_FILE = await ipcRenderer.invoke('get-data-path');
+  // Load data sau khi có đường dẫn
+  loadData();
+  drawWheel();
+
+  if (prizes.length === 0) {
+    document.getElementById('result').textContent = 'Chưa có giải thưởng! Mở quản trị để thêm.';
+    document.getElementById('spinBtn').disabled = true;
+  } else if (getAvailablePlayers().length === 0) {
+    document.getElementById('result').textContent = 'Không còn người chơi!';
+    document.getElementById('spinBtn').disabled = true;
+  }
+})();
 
 function showNotification(message, type = 'error') {
   const notification = document.getElementById('notification');
@@ -226,14 +241,3 @@ ipcRenderer.on('data-updated', () => {
 });
 
 document.getElementById('spinBtn').addEventListener('click', spin);
-
-loadData();
-drawWheel();
-
-if (prizes.length === 0) {
-  document.getElementById('result').textContent = 'Chưa có giải thưởng! Mở quản trị để thêm.';
-  document.getElementById('spinBtn').disabled = true;
-} else if (getAvailablePlayers().length === 0) {
-  document.getElementById('result').textContent = 'Không còn người chơi!';
-  document.getElementById('spinBtn').disabled = true;
-}
