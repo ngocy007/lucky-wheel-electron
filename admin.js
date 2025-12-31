@@ -176,7 +176,7 @@ async function deletePlayer(id) {
 function renderPrizes() {
   const list = document.getElementById('prizeList');
   if (prizes.length === 0) {
-    list.innerHTML = '<p style="color: #999; text-align: center;">Chưa có giải thưởng nào</p>';
+    list.innerHTML = '<p style="color: rgba(255, 255, 255, 0.9); text-align: center; font-weight: 500;">Chưa có giải thưởng nào</p>';
     return;
   }
 
@@ -203,7 +203,7 @@ function renderPrizes() {
 function renderPlayers() {
   const list = document.getElementById('playerList');
   if (players.length === 0) {
-    list.innerHTML = '<p style="color: #999; text-align: center;">Chưa có người chơi nào</p>';
+    list.innerHTML = '<p style="color: rgba(255, 255, 255, 0.9); text-align: center; font-weight: 500;">Chưa có người chơi nào</p>';
     return;
   }
 
@@ -229,7 +229,7 @@ function renderPlayers() {
 function renderWinners() {
   const tbody = document.getElementById('winnerTableBody');
   if (winners.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #999;">Chưa có người trúng thưởng</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: rgba(255, 255, 255, 0.9); font-weight: 500;">Chưa có người trúng thưởng</td></tr>';
     return;
   }
 
